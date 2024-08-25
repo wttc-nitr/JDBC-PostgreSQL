@@ -15,7 +15,8 @@ public class StudentDAO {
             preparedStatement.setString(2, student.getPhone());
             preparedStatement.setString(3, student.getCity());
 
-            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate(); // fire queries
+            connection.close(); // close the connection after operation
             ok = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,6 +33,7 @@ public class StudentDAO {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+            connection.close(); // close the connection after operation
             ok = true;
         }
         catch (Exception e) {
@@ -44,10 +46,11 @@ public class StudentDAO {
     public static void showAllStudents () {
         try (Connection connection = ConnectDB.connect();) {
             String query = "SELECT * FROM students;";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query); // create query
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-
+            ResultSet resultSet = preparedStatement.executeQuery(); // fire query to get result
+            connection.close(); // close the connection
+            // process the result
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 String name = resultSet.getString(2);
@@ -66,9 +69,29 @@ public class StudentDAO {
     }
 
     public static boolean updateStudentDetails (Student student) {
-        boolean ok = false;
         int id = student.getId();
+        String name = student.getName();
+        String city = student.getCity();
+        String phone = student.getPhone();
 
+        boolean ok = false;
+        try (Connection connection = ConnectDB.connect();) {
+            String query = "UPDATE students SET name = ?, city = ?, phone = ? WHERE id = ? ;";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, city);
+            preparedStatement.setString(3, phone);
+            preparedStatement.setInt(4, id);
+
+            preparedStatement.executeUpdate();
+
+            connection.close();
+
+            ok = true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return ok;
     }
 }

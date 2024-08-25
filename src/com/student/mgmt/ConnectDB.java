@@ -7,11 +7,11 @@ public class ConnectDB {
     public static Connection connect() {
         Connection connection = null;
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.postgresql.Driver"); // load the driver
             String url = "jdbc:postgresql://localhost:5432/student_mgmt";
             String user = "animesh";
             String password = "postgres";
-            connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password); // create connection
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -13,13 +13,14 @@ public class Main {
             int choice = Integer.parseInt(sc.nextLine());
 
             switch (choice) {
-                case 1:
+                case 1: {
+                    // add
                     System.out.println("Enter student details:\nEnter name:");
                     String name = sc.nextLine();
                     System.out.println("Enter phone:");
                     String phone = sc.nextLine();
                     System.out.println("Enter city:");
-                    String city =  sc.nextLine();
+                    String city = sc.nextLine();
 
                     Student st = new Student(name, phone, city);
                     boolean isInserted = StudentDAO.insertToDB(st);
@@ -28,7 +29,9 @@ public class Main {
                         System.out.println("inserted successfully");
                     else System.out.println("failed, try again...");
                     break;
-                case 2:
+                }
+                case 2: {
+                    // delete
                     System.out.println("Enter Student id:");
                     int id = Integer.parseInt(sc.nextLine());
 
@@ -37,14 +40,32 @@ public class Main {
                         System.out.println("deleted successfully");
                     else System.out.println("something went wrong...");
                     break;
+                }
                 case 3:
+                    // show all
                     StudentDAO.showAllStudents();
                     break;
-                case 4:
+                case 4: {
+                    // update
+                    System.out.println("Enter Student details to update\nEnter id:");
+                    int id = Integer.parseInt(sc.nextLine());
+                    System.out.println("Enter name:");
+                    String name = sc.nextLine();
+                    System.out.println("Enter new city:");
+                    String city = sc.nextLine();
+                    System.out.println("Enter new phone:");
+                    String phone = sc.nextLine();
 
+                    boolean isUpdated = StudentDAO.updateStudentDetails(new Student(id, name, phone, city));
+                    if (isUpdated)
+                        System.out.println("updated successfully!");
+                    else System.out.println("error occured, try again");
+                    break;
+                }
                 case 5:
+                    // exit
                     ok = false;
-                    System.out.println("pressed 4, exiting...\n");
+                    System.out.println("pressed 5, exiting...\n");
                     break;
                 default:
                     System.out.println("please press valid key.\n");
